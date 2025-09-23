@@ -143,7 +143,7 @@ class _ForkYouGraphWidgetState extends State<ForkYouGraphWidget> {
                 decoration: BoxDecoration(
                   color: opacity > 0
                       ? Colors.deepOrange.withOpacity(opacity)
-                      : Colors.white.withOpacity(0.1),
+                      : Colors.white.withOpacity(0.18),
                   borderRadius: cellRadius,
                   border: opacity > 0
                       ? Border.all(width: 0)
