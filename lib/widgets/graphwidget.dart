@@ -17,11 +17,14 @@ class ForkYouGraphWidget extends StatefulWidget {
 class _ForkYouGraphWidgetState extends State<ForkYouGraphWidget> {
   late final Future<Map<String, dynamic>> _activityData;
 
+  
+
   @override
   void initState() {
     super.initState();
     _activityData = _fetchAndParseData();
   }
+
 
   Future<Map<String, dynamic>> _fetchAndParseData() async {
     try {
