@@ -38,6 +38,8 @@ dependencies:
   html: ^0.15.6
   intl: ^0.20.2
   shared_preferences: ^2.5.3
+  home_widget: ^0.8.0
+  connectivity_plus: ^7.0.0
 
 dev_dependencies:
   flutter_test:

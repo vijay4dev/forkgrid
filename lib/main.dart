@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:forkgrid/widgets/graphwidget.dart';
 
@@ -28,6 +32,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
   String? _username;
+   Timer? _timer;
 
   @override
   void initState() {
@@ -56,6 +61,35 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _username = _controller.text.trim();
     });
+  }
+
+  void _startApiTimer() {
+    _timer?.cancel(); // avoid multiple timers
+    _timer = Timer.periodic(const Duration(minutes: 5), (_) {
+      _callApiIfConnected();
+    });
+    // first call immediately
+    _callApiIfConnected();
+  }
+
+  // Check internet and call API
+  Future<void> _callApiIfConnected() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      debugPrint("No internet. Skipping API call.");
+      return;
+    }
+
+    try {
+      final response = await http.get(Uri.parse("https://forkyou.dev/user/$_username"));
+      if (response.statusCode == 200) {
+        debugPrint("API call success: ${response.body.substring(0, 50)}...");
+      } else {
+        debugPrint("API call failed with status: ${response.statusCode}");
+      }
+    } catch (e) {
+      debugPrint("API call error: $e");
+    }
   }
 
   @override
